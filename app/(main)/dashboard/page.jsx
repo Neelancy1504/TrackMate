@@ -1,23 +1,25 @@
-import { getUserAccounts } from "@/actions/dashboard";
+import { getDashboardData, getUserAccounts } from "@/actions/dashboard";
 import AccountCard from "./_components/account-card";
 import { CreateAccountDrawer } from "../../../components/create-account-drawer";
 import { Plus } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { getCurrentBudget } from "@/actions/budget";
 import BudgetProgress from "./_components/budget-progress";
+import { DashboardOverview } from "./_components/transaction-overview";
+import { Suspense } from "react";
 
 export default async function DashboardPage() {
-  const [accounts] = await Promise.all([
-    getUserAccounts(),
-  ]);
+  const [accounts] = await Promise.all([getUserAccounts()]);
 
   const defaultAccount = accounts?.find((account) => account.isDefault);
 
   let budgetData = null;
   if (defaultAccount) {
     budgetData = await getCurrentBudget(defaultAccount.id);
-    console.log('Budget Data:', budgetData); // Debug log
+    console.log("Budget Data:", budgetData); // Debug log
   }
+
+  const transactions = await getDashboardData();
 
   return (
     <div className="space-y-8">
@@ -29,6 +31,12 @@ export default async function DashboardPage() {
       )}
 
       {/* Dashboard Overview */}
+      <Suspense fallback={"Loading Overview..."}>
+        <DashboardOverview
+          accounts={accounts}
+          transactions={transactions || []}
+        />
+      </Suspense>
 
       {/* Accounts Grid */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
