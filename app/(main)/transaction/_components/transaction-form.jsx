@@ -73,26 +73,51 @@ const AddTransactionForm = ({
           },
   });
 
+  // const onSubmit = async (data) => {
+  //   const formData = {
+  //     ...data,
+  //     amount: parseFloat(data.amount),
+  //   };
+  //   transactionFn(formData);
+  //   if (editMode) {
+  //     transactionFn(editId, formData);
+  //   } else {
+  //     transactionFn(formData);
+  //   }
+  // };
+
   const onSubmit = async (data) => {
     const formData = {
       ...data,
       amount: parseFloat(data.amount),
     };
-    transactionFn(formData);
+  
     if (editMode) {
-      transactionFn(editId, formData);
+      await transactionFn(editId, formData);
     } else {
-      transactionFn(formData);
+      await transactionFn(formData);
     }
   };
+  
   const {
     loading: transactionLoading,
     fn: transactionFn,
     data: transactionResult,
   } = useFetch(editMode ? updateTransaction : createTransaction);
 
+  // useEffect(() => {
+  //   if (transactionResult?.success && !transactionLoading) {
+  //     toast.success(
+  //       editMode
+  //         ? "Transaction updated successfully!"
+  //         : "Transaction created successfully!"
+  //     );
+  //     reset();
+  //     router.push(`/account/${transactionResult.data.accountId}`);
+  //   }
+  // }, [transactionResult, transactionLoading , editMode]);
   useEffect(() => {
-    if (transactionResult?.success && !transactionLoading) {
+    if (transactionResult?.success) {
       toast.success(
         editMode
           ? "Transaction updated successfully!"
@@ -101,7 +126,8 @@ const AddTransactionForm = ({
       reset();
       router.push(`/account/${transactionResult.data.accountId}`);
     }
-  }, [transactionResult, transactionLoading , editMode]);
+  }, [transactionResult, editMode]);
+  
 
   const type = watch("type");
   const isRecurring = watch("isRecurring");
