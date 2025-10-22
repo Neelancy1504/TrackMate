@@ -1,6 +1,7 @@
 import arcjet, { createMiddleware, detectBot, shield } from "@arcjet/next";
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
+//these are the projected routes that require authentication
 const isProtectedRoute = createRouteMatcher([
   "/dashboard(.*)",
   "/account(.*)",
@@ -20,6 +21,7 @@ const aj = arcjet({
   ],
 });
 
+// This middleware will run for all requests that match the protected routes
 const clerk =  clerkMiddleware(async (auth, req) => {
   const { userId } = await auth();
 

@@ -28,9 +28,24 @@ export default function RootLayout({ children }) {
       {/* {footer} */}
       <footer className="bg-blue-50 py-12">
         <div className="container mx-auto px-4 text-center text-gray-600">
-          <p> Made with ❤️ by Neelancy Nain</p>
+          <p> Made with ❤️ by Neelancy Shivani Salma</p>
         </div>
       </footer>
+
+      {/* Floating Chatbot Icon */}
+      <a
+        href="https://chat-bot-welth.vercel.app"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-8 right-8 z-50 transition-transform hover:scale-110"
+        aria-label="Open chat bot"
+      >
+        <img
+          src="https://www.shutterstock.com/image-vector/chat-bot-icon-virtual-smart-600nw-2478937553.jpg"
+          alt="Chat Bot"
+          className="h-16 w-16 rounded-full shadow-lg"
+        />
+      </a>
       </body>
     </html>
     </ClerkProvider>
