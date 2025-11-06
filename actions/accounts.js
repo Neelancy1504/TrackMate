@@ -149,3 +149,24 @@ export async function updateDefaultAccount(accountId) {
     return { success: false, error: error.message };
   }
 }
+
+export async function getUserAccounts() {
+  const { userId } = await auth();
+  if (!userId) throw new Error("Unauthorized");
+
+  const user = await db.user.findUnique({
+    where: { clerkUserId: userId },
+    include: {
+      accounts: {
+        orderBy: { isDefault: "desc" }, // Default account first
+      },
+    },
+  });
+
+  if (!user) throw new Error("User not found");
+
+  return user.accounts.map((account) => ({
+    ...serializeDecimal(account),
+    userId: user.id, // Include the real database user ID
+  }));
+}
