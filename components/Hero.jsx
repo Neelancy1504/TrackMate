@@ -42,7 +42,7 @@ const HeroSection = () => {
               Get Started
             </Button>
           </Link>
-          <Link href="https://finance-article-page-nu.vercel.app/">
+          <Link href="https://finance-article-page-jnb3.vercel.app/">
             <Button size="lg" variant="outline" className="px-8">
               Articles
             </Button>
